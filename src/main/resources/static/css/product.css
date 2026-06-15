@@ -1,0 +1,36 @@
+/* Product screens (list + form) */
+
+/* Background canvas */
+#bgCanvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Product table */
+.product-row {
+    transition: background-color .1s ease;
+}
+
+.product-row:hover {
+    background-color: rgba(148, 163, 184, 0.12);
+}
+
+.product-desc-cell {
+    max-width: 360px;
+}
+
+/* Form tweaks */
+.lm-card .form-label {
+    font-size: .875rem;
+    font-weight: 600;
+    color: var(--lm-text-muted);
+}
+
+.lm-card input.form-control,
+.lm-card textarea.form-control {
+    font-size: .9rem;
+}

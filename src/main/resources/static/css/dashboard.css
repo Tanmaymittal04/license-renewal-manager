@@ -1,0 +1,25 @@
+/* Dashboard-only */
+
+/* Three.js canvas as animated background */
+#bgCanvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* KPI cards refinement */
+.lm-card .fs-3 {
+    line-height: 1.1;
+}
+
+.lm-card .small {
+    color: var(--lm-text-muted);
+}
+
+/* Vendor mix spacing */
+.lm-card .d-flex.mb-3:last-child {
+    margin-bottom: 0 !important;
+}

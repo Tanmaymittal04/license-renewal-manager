@@ -1,0 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<footer class="border-top mt-3 pt-3 small text-muted text-center">
+    &copy; <%= java.time.Year.now() %> LicenseOps – Internal Use Only
+</footer>

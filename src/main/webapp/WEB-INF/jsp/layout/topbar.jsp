@@ -1,0 +1,48 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String pageTitle = request.getParameter("pageTitle");
+    if (pageTitle == null || pageTitle.isEmpty()) {
+        pageTitle = "Dashboard";
+    }
+%>
+<nav class="lm-topbar d-flex align-items-center px-3 px-lg-4">
+    <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-outline-secondary d-lg-none" id="lm-sidebar-toggle">
+            <i class="bi bi-list"></i>
+        </button>
+        <div class="d-none d-md-flex flex-column">
+            <div class="small text-muted">License Renewal Management</div>
+            <div class="fw-semibold">
+                <%= pageTitle %>
+            </div>
+        </div>
+    </div>
+
+    <div class="ms-auto d-flex align-items-center gap-3">
+        <div class="input-group input-group-sm d-none d-md-flex" style="max-width: 260px;">
+            <span class="input-group-text border-0 bg-transparent">
+                <i class="bi bi-search"></i>
+            </span>
+            <input type="text" class="form-control border-0"
+                   placeholder="Search licenses, products..." />
+        </div>
+
+        <div class="dropdown">
+            <button class="btn btn-light btn-sm d-flex align-items-center gap-2"
+                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center"
+                      style="width: 32px; height: 32px;">
+                    TM
+                </span>
+                <span class="d-none d-md-inline">Tanmay</span>
+                <i class="bi bi-chevron-down small"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><hr class="dropdown-divider"/></li>
+                <li><a class="dropdown-item text-danger" href="#">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

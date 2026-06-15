@@ -1,0 +1,54 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String ctx = request.getContextPath();
+    String activeMenu = (String) request.getAttribute("activeMenu");
+    if (activeMenu == null) activeMenu = "";
+
+    boolean isDashboardActive   = "dashboard".equals(activeMenu);
+    boolean isLicensesActive    = "licenses".equals(activeMenu);
+    boolean isProductsActive    = "products".equals(activeMenu);
+    boolean isDepartmentsActive = "departments".equals(activeMenu);
+%>
+<div class="lm-sidebar d-flex flex-column p-3">
+    <div class="d-flex align-items-center mb-4">
+        <span class="lm-brand fs-5">LicenseOps</span>
+    </div>
+
+    <div class="mb-3 text-muted small text-uppercase">Navigation</div>
+    <ul class="nav nav-pills flex-column gap-1 mb-auto">
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2 <%= isDashboardActive ? "active" : "" %>"
+               href="<%= ctx %>/ui/dashboard">
+                <i class="bi bi-speedometer2"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item mt-2 text-muted small text-uppercase">Licenses</li>
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2 <%= isLicensesActive ? "active" : "" %>"
+               href="<%= ctx %>/ui/licenses">
+                <i class="bi bi-key"></i>
+                <span>All Licenses</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2 <%= isProductsActive ? "active" : "" %>"
+               href="<%= ctx %>/ui/products">
+                <i class="bi bi-box-seam"></i>
+                <span>Products</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2 <%= isDepartmentsActive ? "active" : "" %>"
+               href="<%= ctx %>/ui/departments">
+                <i class="bi bi-diagram-3"></i>
+                <span>Departments</span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="mt-4 small text-muted">
+        <div class="fw-semibold">Tanmay Mittal</div>
+        <div>System Admin</div>
+    </div>
+</div>
