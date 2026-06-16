@@ -59,6 +59,7 @@ public class ProductUiController {
         model.addAttribute("form", form);
         model.addAttribute("mode", "edit");
         model.addAttribute("activeMenu", "products");
+        model.addAttribute("productId", id);   // ✅ ADD THIS LINE
         return "product/productform";
     }
 
@@ -71,6 +72,7 @@ public class ProductUiController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("mode", "edit");
             model.addAttribute("activeMenu", "products");
+            model.addAttribute("productId", id);   // ✅ ADD THIS LINE too
             return "product/productform";
         }
         productService.update(id, form);

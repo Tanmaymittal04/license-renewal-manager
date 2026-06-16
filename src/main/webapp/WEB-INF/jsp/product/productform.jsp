@@ -61,6 +61,10 @@
 
             <div class="lm-card p-4">
                 <form method="post" action="<%= formAction %>">
+
+                    <!-- ✅ CSRF token — required by Spring Security for all POST requests -->
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
                     <div class="mb-3">
                         <label class="form-label">Name</label>
                         <input type="text" name="name"

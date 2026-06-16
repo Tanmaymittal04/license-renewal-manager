@@ -58,6 +58,7 @@ public class DepartmentUiController {
         DepartmentDto form = departmentService.getById(id);
         model.addAttribute("form", form);
         model.addAttribute("mode", "edit");
+        model.addAttribute("departmentId", id);   // ✅ add this line
         model.addAttribute("activeMenu", "departments");
         return "department/departmentform";
     }
@@ -70,6 +71,7 @@ public class DepartmentUiController {
                          RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("mode", "edit");
+            model.addAttribute("departmentId", id);   // ✅ needed for the correct action URL
             model.addAttribute("activeMenu", "departments");
             return "department/departmentform";
         }

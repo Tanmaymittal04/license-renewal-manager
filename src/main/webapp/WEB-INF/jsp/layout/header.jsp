@@ -15,6 +15,13 @@
     <title><%= pageTitle %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- ✅ CSRF token for JS-driven POST forms (required by Spring Security) -->
+    <meta name="_csrf"            content="${_csrf.token}"/>
+    <meta name="_csrf_param_name" content="${_csrf.parameterName}"/>
+
+    <!-- ✅ Context path for building absolute action URLs in JS -->
+    <meta name="ctx" content="<%= ctx %>"/>
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet"

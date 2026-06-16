@@ -102,7 +102,7 @@
                 <div class="col-md-3">
                     <div class="lm-card p-3 h-100">
                         <div class="small text-muted text-uppercase fw-semibold mb-1">
-                            Annual Spend (INR)
+                            Spend (INR)
                         </div>
                         <div class="fs-3 fw-bold">
                             <%
