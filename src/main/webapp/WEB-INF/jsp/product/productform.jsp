@@ -18,11 +18,6 @@
     }
 
     String nameVal = form != null && form.getName() != null ? form.getName() : "";
-    String vendorVal = form != null && form.getVendorName() != null ? form.getVendorName() : "";
-    String categoryVal = form != null && form.getCategory() != null ? form.getCategory() : "";
-    String defaultValidityVal = form != null && form.getDefaultValidityMonths() != null
-            ? form.getDefaultValidityMonths().toString()
-            : "";
     String descVal = form != null && form.getDescription() != null ? form.getDescription() : "";
 %>
 
@@ -70,30 +65,6 @@
                         <input type="text" name="name"
                                value="<%= nameVal %>"
                                class="form-control" required />
-                    </div>
-
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Vendor</label>
-                            <input type="text" name="vendorName"
-                                   value="<%= vendorVal %>"
-                                   class="form-control" required />
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Category</label>
-                            <input type="text" name="category"
-                                   value="<%= categoryVal %>"
-                                   class="form-control" />
-                        </div>
-                    </div>
-
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-4">
-                            <label class="form-label">Default Validity (months)</label>
-                            <input type="number" min="1" name="defaultValidityMonths"
-                                   value="<%= defaultValidityVal %>"
-                                   class="form-control" />
-                        </div>
                     </div>
 
                     <div class="mb-4">

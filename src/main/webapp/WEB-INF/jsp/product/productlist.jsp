@@ -63,9 +63,6 @@
                             <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Vendor</th>
-                                <th>Category</th>
-                                <th>Default Validity (months)</th>
                                 <th>Description</th>
                                 <th></th>
                             </tr>
@@ -77,19 +74,6 @@
                             %>
                                 <tr class="product-row">
                                     <td class="fw-semibold"><%= p.getName() %></td>
-                                    <td><%= p.getVendorName() %></td>
-                                    <td>
-                                        <%
-                                            String cat = p.getCategory();
-                                            out.print(cat != null ? cat : "-");
-                                        %>
-                                    </td>
-                                    <td>
-                                        <%
-                                            Integer defMonths = p.getDefaultValidityMonths();
-                                            out.print(defMonths != null ? defMonths : "-");
-                                        %>
-                                    </td>
                                     <td class="small text-muted product-desc-cell">
                                         <%= p.getDescription() != null ? p.getDescription() : "" %>
                                     </td>
@@ -105,7 +89,7 @@
                                 } else {
                             %>
                                 <tr>
-                                    <td colspan="6" class="text-center text-muted py-4">
+                                    <td colspan="3" class="text-center text-muted py-4">
                                         No products defined yet.
                                     </td>
                                 </tr>
