@@ -10,7 +10,7 @@
     String ctx = request.getContextPath();
     boolean editMode = "edit".equalsIgnoreCase(mode);
 
-    String pageTitle = editMode ? "Edit Department" : "New Department";
+    String pageTitle = editMode ? "Edit Customer" : "New Customer";
 
     String formAction = ctx + "/ui/departments";
     if (editMode && departmentId != null) {
@@ -43,9 +43,9 @@
         <main class="lm-content">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                    <h1 class="h4 mb-1"><%= editMode ? "Edit Department" : "Create Department" %></h1>
+                    <h1 class="h4 mb-1"><%= editMode ? "Edit Customer" : "Create Customer" %></h1>
                     <div class="text-muted small">
-                        Maintain department names and cost centers.
+                        Maintain customer names and location.
                     </div>
                 </div>
                 <a href="<%= ctx %>/ui/departments"
@@ -74,7 +74,7 @@
 
                     <div class="d-flex justify-content-end gap-2">
                         <button type="submit" class="btn btn-primary">
-                            <%= editMode ? "Save Changes" : "Create Department" %>
+                            <%= editMode ? "Save Changes" : "Create Customer" %>
                         </button>
                     </div>
                 </form>

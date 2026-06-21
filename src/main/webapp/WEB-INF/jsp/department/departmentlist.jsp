@@ -14,7 +14,7 @@
 %>
 
 <jsp:include page="/WEB-INF/jsp/layout/header.jsp">
-    <jsp:param name="pageTitle" value="Departments"/>
+    <jsp:param name="pageTitle" value="Customers"/>
     <jsp:param name="pageCss" value="/css/department.css"/>
 </jsp:include>
 
@@ -29,13 +29,13 @@
 
     <div class="lm-main">
         <jsp:include page="/WEB-INF/jsp/layout/topbar.jsp">
-            <jsp:param name="pageTitle" value="Departments"/>
+            <jsp:param name="pageTitle" value="Customers"/>
         </jsp:include>
 
         <main class="lm-content">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                    <h1 class="h4 mb-1">Departments</h1>
+                    <h1 class="h4 mb-1">Customers</h1>
                     <div class="text-muted small">
                         Map licenses and spend to business units.
                     </div>
@@ -43,7 +43,7 @@
                 <div>
                     <a href="<%= ctx %>/ui/departments/new"
                        class="btn btn-primary">
-                        <i class="bi bi-plus-lg me-1"></i> New Department
+                        <i class="bi bi-plus-lg me-1"></i> New Customer
                     </a>
                 </div>
             </div>
@@ -51,7 +51,7 @@
             <div class="lm-card">
                 <div class="lm-card-header p-3 d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center gap-2">
-                        <span class="small text-muted text-uppercase fw-semibold">All Departments</span>
+                        <span class="small text-muted text-uppercase fw-semibold">All Customers</span>
                         <span class="badge bg-light text-muted">
                             <%= departments.size() %> total
                         </span>
@@ -63,7 +63,7 @@
                             <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Cost Center</th>
+                                <th>Location</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -93,7 +93,7 @@
                             %>
                                 <tr>
                                     <td colspan="3" class="text-center text-muted py-4">
-                                        No departments defined yet.
+                                        No customers defined yet.
                                     </td>
                                 </tr>
                             <%

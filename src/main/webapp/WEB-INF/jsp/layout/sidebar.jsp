@@ -42,7 +42,7 @@
             <a class="nav-link d-flex align-items-center gap-2 <%= isDepartmentsActive ? "active" : "" %>"
                href="<%= ctx %>/ui/departments">
                 <i class="bi bi-diagram-3"></i>
-                <span>Departments</span>
+                <span>Customers</span>
             </a>
         </li>
     </ul>
