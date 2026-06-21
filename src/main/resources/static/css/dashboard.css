@@ -1,6 +1,6 @@
 /* Dashboard-only */
 
-/* Three.js canvas as animated background */
+/* Background canvas */
 #bgCanvas {
     position: fixed;
     inset: 0;
@@ -17,9 +17,4 @@
 
 .lm-card .small {
     color: var(--lm-text-muted);
-}
-
-/* Vendor mix spacing */
-.lm-card .d-flex.mb-3:last-child {
-    margin-bottom: 0 !important;
 }

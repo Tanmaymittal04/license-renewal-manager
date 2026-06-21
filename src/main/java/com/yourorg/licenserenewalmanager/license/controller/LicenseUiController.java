@@ -8,16 +8,22 @@ import com.yourorg.licenserenewalmanager.license.enums.BillingCycle;
 import com.yourorg.licenserenewalmanager.license.service.LicenseService;
 import com.yourorg.licenserenewalmanager.license.dto.ProductDto;
 import com.yourorg.licenserenewalmanager.license.service.ProductService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/ui/licenses")
@@ -35,11 +41,20 @@ public class LicenseUiController {
         this.departmentService = departmentService;
     }
 
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Integer.class,
+                new org.springframework.beans.propertyeditors.CustomNumberEditor(Integer.class, true));
+        binder.registerCustomEditor(java.math.BigDecimal.class,
+                new org.springframework.beans.propertyeditors.CustomNumberEditor(java.math.BigDecimal.class, true));
+    }
+
     @GetMapping
     public String list(@RequestParam(name = "q", required = false) String q,
                        Model model) {
-        // For now ignore q or implement search in service.
-        List<LicenseResponseDto> licenses = licenseService.getAll();
+        List<LicenseResponseDto> licenses = (q != null && !q.isBlank())
+                ? licenseService.search(q)
+                : licenseService.getAll();
 
         model.addAttribute("licenses", licenses);
         model.addAttribute("activeMenu", "licenses");
@@ -52,10 +67,10 @@ public class LicenseUiController {
     public String showCreateForm(Model model) {
         LicenseRequestDto form = new LicenseRequestDto(
                 null, null, null,
-                0, 0,
+                null, null,
                 null, null,
                 null, Boolean.TRUE,
-                null, "INR"
+                null, "INR", null
         );
         populateFormModel(model, form, "create", null);
         return "license/form";
@@ -91,7 +106,8 @@ public class LicenseUiController {
                 license.getBillingCycle(),
                 license.getAutoRenew(),
                 license.getCostPerCycle(),
-                license.getCurrency()
+                license.getCurrency(),
+                license.getTenure()
         );
 
         populateFormModel(model, form, "edit", id);
@@ -121,6 +137,56 @@ public class LicenseUiController {
         licenseService.delete(id);
         redirectAttributes.addFlashAttribute("successMessage", "License cancelled.");
         return "redirect:/ui/licenses";
+    }
+
+    @GetMapping("/export")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=licenses.xlsx");
+
+        List<LicenseResponseDto> licenses = licenseService.getAll();
+
+        try (XSSFWorkbook workbook = new XSSFWorkbook()) {
+            XSSFSheet sheet = workbook.createSheet("Licenses");
+
+            String[] columns = {
+                    "ID", "Product", "Vendor", "Department", "License Key",
+                    "Seats Purchased", "Seats Used", "Start Date", "Expiry Date",
+                    "Tenure (Months)", "Billing Cycle", "Auto Renew", "Status",
+                    "Cost per Cycle", "Currency"
+            };
+
+            Row headerRow = sheet.createRow(0);
+            for (int i = 0; i < columns.length; i++) {
+                headerRow.createCell(i).setCellValue(columns[i]);
+            }
+
+            int rowNum = 1;
+            for (LicenseResponseDto l : licenses) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(l.getId() != null ? l.getId() : 0);
+                row.createCell(1).setCellValue(l.getProductName() != null ? l.getProductName() : "");
+                row.createCell(2).setCellValue(l.getVendorName() != null ? l.getVendorName() : "");
+                row.createCell(3).setCellValue(l.getDepartmentName() != null ? l.getDepartmentName() : "");
+                row.createCell(4).setCellValue(l.getLicenseKeyOrContractId() != null ? l.getLicenseKeyOrContractId() : "");
+                row.createCell(5).setCellValue(l.getSeatsPurchased() != null ? l.getSeatsPurchased() : 0);
+                row.createCell(6).setCellValue(l.getSeatsUsed() != null ? l.getSeatsUsed() : 0);
+                row.createCell(7).setCellValue(l.getStartDate() != null ? l.getStartDate().toString() : "");
+                row.createCell(8).setCellValue(l.getExpiryDate() != null ? l.getExpiryDate().toString() : "");
+                row.createCell(9).setCellValue(l.getTenure() != null ? l.getTenure() : 0);
+                row.createCell(10).setCellValue(l.getBillingCycle() != null ? l.getBillingCycle().name() : "");
+                row.createCell(11).setCellValue(l.getAutoRenew() != null && l.getAutoRenew() ? "Yes" : "No");
+                row.createCell(12).setCellValue(l.getStatus() != null ? l.getStatus().name() : "");
+                row.createCell(13).setCellValue(l.getCostPerCycle() != null ? l.getCostPerCycle().doubleValue() : 0.0);
+                row.createCell(14).setCellValue(l.getCurrency() != null ? l.getCurrency() : "");
+            }
+
+            for (int i = 0; i < columns.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            workbook.write(response.getOutputStream());
+        }
     }
 
     private void populateFormModel(Model model,

@@ -24,7 +24,6 @@
 
 <div class="lm-shell">
     <%
-        // For sidebar active state
         request.setAttribute("activeMenu", "licenses");
     %>
     <jsp:include page="/WEB-INF/jsp/layout/sidebar.jsp" />
@@ -43,6 +42,10 @@
                     </div>
                 </div>
                 <div class="d-flex gap-2">
+                    <a href="<%= ctx %>/ui/licenses/export"
+                       class="btn btn-success">
+                        <i class="bi bi-download me-1"></i> Export Excel
+                    </a>
                     <a href="<%= ctx %>/ui/licenses/new"
                        class="btn btn-primary">
                         <i class="bi bi-plus-lg me-1"></i> New License
@@ -74,10 +77,11 @@
                             <thead>
                             <tr>
                                 <th>Product</th>
-                                <th>Department</th>
+                                <th>Customer</th>
                                 <th>License Key / Contract</th>
                                 <th>Seats</th>
                                 <th>Validity</th>
+                                <th>Tenure</th>
                                 <th>Billing</th>
                                 <th>Status</th>
                                 <th></th>
@@ -91,10 +95,10 @@
                                 <tr class="license-row">
                                     <td>
                                         <div class="fw-semibold">
-                                            <%= license.getProductName() %>
+                                            <%= license.getProductName() != null ? license.getProductName() : "-" %>
                                         </div>
                                         <div class="small text-muted">
-                                            <%= license.getVendorName() %>
+                                            <%= license.getVendorName() != null ? license.getVendorName() : "-" %>
                                         </div>
                                     </td>
                                     <td>
@@ -105,25 +109,31 @@
                                     </td>
                                     <td>
                                         <span class="small font-monospace license-key-pill">
-                                            <%= license.getLicenseKeyOrContractId() %>
+                                            <%= license.getLicenseKeyOrContractId() != null ? license.getLicenseKeyOrContractId() : "-" %>
                                         </span>
                                     </td>
                                     <td>
                                         <div class="fw-semibold">
-                                            <%= license.getSeatsUsed() != null ? license.getSeatsUsed() : 0 %> /
-                                            <%= license.getSeatsPurchased() != null ? license.getSeatsPurchased() : 0 %>
+                                            <%= license.getSeatsUsed() != null ? license.getSeatsUsed() : "-" %> /
+                                            <%= license.getSeatsPurchased() != null ? license.getSeatsPurchased() : "-" %>
                                         </div>
                                         <div class="small text-muted">Used / Purchased</div>
                                     </td>
                                     <td>
                                         <div class="small">
-                                            <%= license.getStartDate() %> →
-                                            <%= license.getExpiryDate() %>
+                                            <%= license.getStartDate() != null ? license.getStartDate() : "-" %> →
+                                            <%= license.getExpiryDate() != null ? license.getExpiryDate() : "-" %>
                                         </div>
                                     </td>
                                     <td>
+                                        <%
+                                            Integer tenure = license.getTenure();
+                                            out.print(tenure != null ? tenure + " mo" : "-");
+                                        %>
+                                    </td>
+                                    <td>
                                         <span class="badge bg-light text-muted border">
-                                            <%= license.getBillingCycle() %>
+                                            <%= license.getBillingCycle() != null ? license.getBillingCycle().name() : "-" %>
                                         </span>
                                     </td>
                                     <td>
@@ -170,7 +180,7 @@
                                 } else {
                             %>
                                 <tr>
-                                    <td colspan="8" class="text-center text-muted py-4">
+                                    <td colspan="9" class="text-center text-muted py-4">
                                         No licenses found.
                                     </td>
                                 </tr>

@@ -13,7 +13,7 @@
     String mode = (String) request.getAttribute("mode");
     Long licenseId = (Long) request.getAttribute("licenseId");
     LicenseResponseDto license =
-            (LicenseResponseDto) request.getAttribute("license"); // null in create
+            (LicenseResponseDto) request.getAttribute("license");
 
     List<ProductDto> products =
             (List<ProductDto>) request.getAttribute("products");
@@ -35,8 +35,8 @@
     Long selectedProductId = form != null ? form.getProductId() : null;
     Long selectedDeptId = form != null ? form.getDepartmentId() : null;
     BillingCycle selectedCycle = form != null ? form.getBillingCycle() : null;
-    Integer seatsPurchased = form != null && form.getSeatsPurchased() != null ? form.getSeatsPurchased() : 0;
-    Integer seatsUsed = form != null && form.getSeatsUsed() != null ? form.getSeatsUsed() : 0;
+    Integer seatsPurchased = form != null && form.getSeatsPurchased() != null ? form.getSeatsPurchased() : null;
+    Integer seatsUsed = form != null && form.getSeatsUsed() != null ? form.getSeatsUsed() : null;
     String startDateVal = form != null && form.getStartDate() != null ? form.getStartDate().toString() : "";
     String expiryDateVal = form != null && form.getExpiryDate() != null ? form.getExpiryDate().toString() : "";
     String licenseKeyVal = form != null && form.getLicenseKeyOrContractId() != null ? form.getLicenseKeyOrContractId() : "";
@@ -45,6 +45,7 @@
     boolean autoRenewChecked = form == null
             || form.getAutoRenew() == null
             || Boolean.TRUE.equals(form.getAutoRenew());
+    Integer tenureVal = form != null && form.getTenure() != null ? form.getTenure() : null;
 %>
 
 <jsp:include page="/WEB-INF/jsp/layout/header.jsp">
@@ -84,6 +85,7 @@
                 <form method="post" action="<%= formAction %>">
                     <!-- ✅ CSRF token — required by Spring Security for all POST requests -->
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
                     <!-- product & department -->
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
@@ -97,7 +99,7 @@
                                             boolean selected = selectedProductId != null && selectedProductId.equals(pid);
                                 %>
                                     <option value="<%= pid %>" <%= selected ? "selected" : "" %>>
-                                        <%= product.getName() %> – <%= product.getVendorName() %>
+                                        <%= product.getName() %> – <%= product.getVendorName() != null ? product.getVendorName() : "-" %>
                                     </option>
                                 <%
                                         }
@@ -132,23 +134,23 @@
                             <label class="form-label">License Key / Contract ID</label>
                             <input type="text" name="licenseKeyOrContractId"
                                    value="<%= licenseKeyVal %>"
-                                   class="form-control" required />
+                                   class="form-control" />
                         </div>
                         <div class="col-md-3">
                             <label class="form-label">Seats Purchased</label>
                             <input type="number" name="seatsPurchased" min="0"
-                                   value="<%= seatsPurchased %>"
+                                   value="<%= seatsPurchased != null ? seatsPurchased : "" %>"
                                    class="form-control"/>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label">Seats Used</label>
                             <input type="number" name="seatsUsed" min="0"
-                                   value="<%= seatsUsed %>"
+                                   value="<%= seatsUsed != null ? seatsUsed : "" %>"
                                    class="form-control"/>
                         </div>
                     </div>
 
-                    <!-- dates & billing -->
+                    <!-- dates, billing & tenure -->
                     <div class="row g-3 mb-3">
                         <div class="col-md-4">
                             <label class="form-label">Start Date</label>
@@ -163,8 +165,18 @@
                                    class="form-control" required />
                         </div>
                         <div class="col-md-4">
+                            <label class="form-label">Tenure (months)</label>
+                            <input type="number" name="tenure" min="1"
+                                   value="<%= tenureVal != null ? tenureVal : "" %>"
+                                   class="form-control" />
+                        </div>
+                    </div>
+
+                    <!-- billing cycle -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
                             <label class="form-label">Billing Cycle</label>
-                            <select name="billingCycle" class="form-select" required>
+                            <select name="billingCycle" class="form-select">
                                 <option value="">Select</option>
                                 <%
                                     if (billingCycles != null) {

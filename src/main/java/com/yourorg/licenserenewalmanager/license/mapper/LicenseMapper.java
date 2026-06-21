@@ -24,6 +24,7 @@ public class LicenseMapper {
         license.setAutoRenew(dto.getAutoRenew());
         license.setCostPerCycle(dto.getCostPerCycle());
         license.setCurrency(dto.getCurrency());
+        license.setTenure(dto.getTenure());          // ✅ added
         license.setStatus(LicenseStatus.ACTIVE);
         return license;
     }
@@ -45,7 +46,8 @@ public class LicenseMapper {
                 license.getAutoRenew(),
                 license.getStatus(),
                 license.getCostPerCycle(),
-                license.getCurrency()
+                license.getCurrency(),
+                license.getTenure()                      // ✅ added
         );
     }
 }

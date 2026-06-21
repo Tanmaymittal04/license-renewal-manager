@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.yourorg.licenserenewalmanager.license.dto.DashboardMetricsDto" %>
 <%@ page import="com.yourorg.licenserenewalmanager.license.dto.UpcomingRenewalViewDto" %>
-<%@ page import="com.yourorg.licenserenewalmanager.license.dto.VendorSummaryDto" %>
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,12 +13,6 @@
     @SuppressWarnings("unchecked")
     List<UpcomingRenewalViewDto> upcomingRenewals =
             (List<UpcomingRenewalViewDto>) upcomingRenewalsRaw;
-
-    List<?> vendorSummaryRaw =
-            (List<?>) request.getAttribute("vendorSummary");
-    @SuppressWarnings("unchecked")
-    List<VendorSummaryDto> vendorSummary =
-            (List<VendorSummaryDto>) vendorSummaryRaw;
 
     String ctx = request.getContextPath();
 %>
@@ -141,9 +134,9 @@
                 </div>
             </div>
 
+            <!-- Upcoming Renewals (full width) -->
             <div class="row g-3">
-                <!-- Upcoming Renewals -->
-                <div class="col-lg-8">
+                <div class="col-12">
                     <div class="lm-card">
                         <div class="lm-card-header p-3 d-flex justify-content-between align-items-center">
                             <div>
@@ -163,7 +156,7 @@
                                     <thead>
                                     <tr>
                                         <th>Product</th>
-                                        <th>Department</th>
+                                        <th>Customer</th>
                                         <th>Expiry</th>
                                         <th>Seats</th>
                                         <th>Amount</th>
@@ -178,10 +171,7 @@
                                         <tr>
                                             <td>
                                                 <div class="fw-semibold">
-                                                    <%= item.getProductName() %>
-                                                </div>
-                                                <div class="small text-muted">
-                                                    <%= item.getVendorName() %>
+                                                    <%= item.getProductName() != null ? item.getProductName() : "-" %>
                                                 </div>
                                             </td>
                                             <td>
@@ -193,11 +183,15 @@
                                                     }
                                                 %>
                                             </td>
-                                            <td><%= item.getExpiryDate() %></td>
-                                            <td><%= item.getSeatsPurchased() %></td>
                                             <td>
-                                                <%= item.getCostPerCycle() %>
-                                                <%= " " + item.getCurrency() %>
+                                                <%= item.getExpiryDate() != null ? item.getExpiryDate() : "-" %>
+                                            </td>
+                                            <td>
+                                                <%= item.getSeatsPurchased() != null ? item.getSeatsPurchased() : "-" %>
+                                            </td>
+                                            <td>
+                                                <%= item.getCostPerCycle() != null ? item.getCostPerCycle() : "-" %>
+                                                <%= item.getCurrency() != null ? item.getCurrency() : "" %>
                                             </td>
                                             <td class="text-end">
                                                 <a class="btn btn-sm btn-outline-secondary"
@@ -224,50 +218,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Vendor Mix -->
-                <div class="col-lg-4">
-                    <div class="lm-card h-100">
-                        <div class="lm-card-header p-3">
-                            <div class="small text-muted text-uppercase fw-semibold mb-1">
-                                Vendor Mix
-                            </div>
-                            <div class="fw-semibold">Top Vendors by Spend</div>
-                        </div>
-                        <div class="p-3">
-                            <%
-                                if (vendorSummary != null && !vendorSummary.isEmpty()) {
-                                    for (VendorSummaryDto vendor : vendorSummary) {
-                            %>
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <div>
-                                        <div class="fw-semibold">
-                                            <%= vendor.getName() %>
-                                        </div>
-                                        <div class="small text-muted">
-                                            <%= vendor.getProductCount() %> products
-                                        </div>
-                                    </div>
-                                    <div class="text-end">
-                                        <div class="fw-semibold">
-                                            <%= vendor.getSpend() %> <%= vendor.getCurrency() %>
-                                        </div>
-                                        <div class="small text-muted">
-                                            <%= vendor.getSharePercent() %>% of total
-                                        </div>
-                                    </div>
-                                </div>
-                            <%
-                                    }
-                                } else {
-                            %>
-                                <div class="text-muted small">No data yet.</div>
-                            <%
-                                }
-                            %>
-                        </div>
-                    </div>
-                </div>
             </div>
         </main>
 
@@ -275,12 +225,10 @@
     </div>
 </div>
 
-<!-- Scripts: Bootstrap, Three.js, global + dashboard JS -->
+<!-- Scripts: Bootstrap, global + dashboard JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-
-
 
 <!-- Global layout JS -->
 <script src="<%= ctx %>/js/layout.js"></script>

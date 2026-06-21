@@ -19,4 +19,6 @@ public interface LicenseService {
     void delete(Long id);
 
     List<LicenseResponseDto> getExpiringBetween(LocalDate from, LocalDate to);
+
+    List<LicenseResponseDto> search(String keyword);
 }

@@ -45,6 +45,7 @@ public class LicenseServiceImpl implements LicenseService {
         }
 
         License license = LicenseMapper.toEntity(request, product, department);
+        license.setTenure(request.getTenure()); // in case mapper doesn't map it yet
         License saved = licenseRepository.save(license);
         return LicenseMapper.toDto(saved);
     }
@@ -90,6 +91,7 @@ public class LicenseServiceImpl implements LicenseService {
         existing.setAutoRenew(request.getAutoRenew());
         existing.setCostPerCycle(request.getCostPerCycle());
         existing.setCurrency(request.getCurrency());
+        existing.setTenure(request.getTenure());
 
         return LicenseMapper.toDto(existing);
     }
@@ -108,6 +110,17 @@ public class LicenseServiceImpl implements LicenseService {
         return licenseRepository
                 .findByExpiryDateBetweenAndStatusIn(from, to, statuses)
                 .stream()
+                .map(LicenseMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<LicenseResponseDto> search(String q) {
+        if (q == null || q.isBlank()) {
+            return getAll();
+        }
+        return licenseRepository.searchByKeyword(q.trim()).stream()
                 .map(LicenseMapper::toDto)
                 .toList();
     }

@@ -24,6 +24,7 @@ public class LicenseResponseDto {
     private LicenseStatus status;
     private BigDecimal costPerCycle;
     private String currency;
+    private Integer tenure;
 
     public LicenseResponseDto() {
     }
@@ -43,7 +44,8 @@ public class LicenseResponseDto {
                               Boolean autoRenew,
                               LicenseStatus status,
                               BigDecimal costPerCycle,
-                              String currency) {
+                              String currency,
+                              Integer tenure) {
         this.id = id;
         this.productId = productId;
         this.departmentId = departmentId;
@@ -60,6 +62,7 @@ public class LicenseResponseDto {
         this.status = status;
         this.costPerCycle = costPerCycle;
         this.currency = currency;
+        this.tenure = tenure;
     }
 
     public Long getId() {
@@ -188,5 +191,13 @@ public class LicenseResponseDto {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public Integer getTenure() {
+        return tenure;
+    }
+
+    public void setTenure(Integer tenure) {
+        this.tenure = tenure;
     }
 }
