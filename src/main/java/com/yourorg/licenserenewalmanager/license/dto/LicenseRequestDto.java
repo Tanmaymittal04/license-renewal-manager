@@ -19,6 +19,7 @@ public class LicenseRequestDto {
     private BigDecimal costPerCycle;
     private String currency;
     private Integer tenure;
+    private String vendorName;
 
     public LicenseRequestDto() {
     }
@@ -34,7 +35,8 @@ public class LicenseRequestDto {
                              Boolean autoRenew,
                              BigDecimal costPerCycle,
                              String currency,
-                             Integer tenure) {
+                             Integer tenure,
+                             String vendorName) {
         this.productId = productId;
         this.departmentId = departmentId;
         this.licenseKeyOrContractId = licenseKeyOrContractId;
@@ -47,6 +49,7 @@ public class LicenseRequestDto {
         this.costPerCycle = costPerCycle;
         this.currency = currency;
         this.tenure = tenure;
+        this.vendorName = vendorName;
     }
 
     public Long getProductId() {
@@ -143,5 +146,13 @@ public class LicenseRequestDto {
 
     public void setTenure(Integer tenure) {
         this.tenure = tenure;
+    }
+
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
     }
 }

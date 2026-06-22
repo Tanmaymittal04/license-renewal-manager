@@ -16,19 +16,21 @@
 
     <div class="mb-3 text-muted small text-uppercase">Navigation</div>
     <ul class="nav nav-pills flex-column gap-1 mb-auto">
-        <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2 <%= isDashboardActive ? "active" : "" %>"
-               href="<%= ctx %>/ui/dashboard">
-                <i class="bi bi-speedometer2"></i>
-                <span>Dashboard</span>
-            </a>
-        </li>
+        <%--
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2 <%= isDashboardActive ? "active" : "" %>"
+                       href="<%= ctx %>/ui/dashboard">
+                        <i class="bi bi-speedometer2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+        --%>
         <li class="nav-item mt-2 text-muted small text-uppercase">Licenses</li>
         <li class="nav-item">
             <a class="nav-link d-flex align-items-center gap-2 <%= isLicensesActive ? "active" : "" %>"
                href="<%= ctx %>/ui/licenses">
                 <i class="bi bi-key"></i>
-                <span>All Licenses</span>
+                <span>All Licenses/Subscriptions</span>
             </a>
         </li>
         <li class="nav-item">

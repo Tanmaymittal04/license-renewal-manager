@@ -46,6 +46,9 @@
             || form.getAutoRenew() == null
             || Boolean.TRUE.equals(form.getAutoRenew());
     Integer tenureVal = form != null && form.getTenure() != null ? form.getTenure() : null;
+
+    // ✅ NEW: vendor name value
+    String vendorNameVal = form != null && form.getVendorName() != null ? form.getVendorName() : "";
 %>
 
 <jsp:include page="/WEB-INF/jsp/layout/header.jsp">
@@ -108,7 +111,7 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Department (optional)</label>
+                            <label class="form-label">Customer</label>
                             <select name="departmentId" class="form-select">
                                 <option value="">Unassigned</option>
                                 <%
@@ -128,21 +131,29 @@
                         </div>
                     </div>
 
-                    <!-- license key & seats -->
+                    <!-- license key, vendor name & seats -->
                     <div class="row g-3 mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label class="form-label">License Key / Contract ID</label>
                             <input type="text" name="licenseKeyOrContractId"
                                    value="<%= licenseKeyVal %>"
                                    class="form-control" />
                         </div>
-                        <div class="col-md-3">
+                        <!-- ✅ NEW: Vendor Name -->
+                        <div class="col-md-4">
+                            <label class="form-label">Vendor Name</label>
+                            <input type="text" name="vendorName"
+                                   value="<%= vendorNameVal %>"
+                                   class="form-control"
+                                   placeholder="e.g. Microsoft, Adobe, Oracle" />
+                        </div>
+                        <div class="col-md-2">
                             <label class="form-label">Seats Purchased</label>
                             <input type="number" name="seatsPurchased" min="0"
                                    value="<%= seatsPurchased != null ? seatsPurchased : "" %>"
                                    class="form-control"/>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label class="form-label">Seats Used</label>
                             <input type="number" name="seatsUsed" min="0"
                                    value="<%= seatsUsed != null ? seatsUsed : "" %>"

@@ -13,7 +13,7 @@ public class HomeController {
         // Spring Security will intercept unauthenticated users
         // and redirect them to /ui/login automatically.
         // Authenticated users hitting "/" go straight to dashboard.
-        return "redirect:/ui/dashboard";
+        return "redirect:/ui/licenses";
     }
 
     @GetMapping("/ui/login")

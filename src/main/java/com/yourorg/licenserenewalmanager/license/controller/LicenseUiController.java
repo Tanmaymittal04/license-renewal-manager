@@ -1,16 +1,15 @@
 package com.yourorg.licenserenewalmanager.license.controller;
 
 import com.yourorg.licenserenewalmanager.license.dto.DepartmentDto;
-import com.yourorg.licenserenewalmanager.license.service.DepartmentService;
 import com.yourorg.licenserenewalmanager.license.dto.LicenseRequestDto;
 import com.yourorg.licenserenewalmanager.license.dto.LicenseResponseDto;
-import com.yourorg.licenserenewalmanager.license.enums.BillingCycle;
-import com.yourorg.licenserenewalmanager.license.service.LicenseService;
 import com.yourorg.licenserenewalmanager.license.dto.ProductDto;
+import com.yourorg.licenserenewalmanager.license.enums.BillingCycle;
+import com.yourorg.licenserenewalmanager.license.service.DepartmentService;
+import com.yourorg.licenserenewalmanager.license.service.LicenseService;
 import com.yourorg.licenserenewalmanager.license.service.ProductService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -47,6 +46,7 @@ public class LicenseUiController {
                 new org.springframework.beans.propertyeditors.CustomNumberEditor(Integer.class, true));
         binder.registerCustomEditor(java.math.BigDecimal.class,
                 new org.springframework.beans.propertyeditors.CustomNumberEditor(java.math.BigDecimal.class, true));
+        binder.registerCustomEditor(String.class, new org.springframework.beans.propertyeditors.StringTrimmerEditor(true));
     }
 
     @GetMapping
@@ -70,7 +70,8 @@ public class LicenseUiController {
                 null, null,
                 null, null,
                 null, Boolean.TRUE,
-                null, "INR", null
+                null, "INR", null,
+                null // ✅ NEW: vendorName
         );
         populateFormModel(model, form, "create", null);
         return "license/form";
@@ -85,6 +86,8 @@ public class LicenseUiController {
             populateFormModel(model, form, "create", null);
             return "license/form";
         }
+
+        sanitizeLicenseRequestDto(form);
 
         licenseService.create(form);
         redirectAttributes.addFlashAttribute("successMessage", "License created successfully.");
@@ -107,7 +110,8 @@ public class LicenseUiController {
                 license.getAutoRenew(),
                 license.getCostPerCycle(),
                 license.getCurrency(),
-                license.getTenure()
+                license.getTenure(),
+                license.getVendorName() // ✅ NEW
         );
 
         populateFormModel(model, form, "edit", id);
@@ -125,6 +129,8 @@ public class LicenseUiController {
             populateFormModel(model, form, "edit", id);
             return "license/form";
         }
+
+        sanitizeLicenseRequestDto(form);
 
         licenseService.update(id, form);
         redirectAttributes.addFlashAttribute("successMessage", "License updated successfully.");
@@ -166,7 +172,7 @@ public class LicenseUiController {
                 Row row = sheet.createRow(rowNum++);
                 row.createCell(0).setCellValue(l.getId() != null ? l.getId() : 0);
                 row.createCell(1).setCellValue(l.getProductName() != null ? l.getProductName() : "");
-                row.createCell(2).setCellValue(l.getVendorName() != null ? l.getVendorName() : "");
+                row.createCell(2).setCellValue(l.getVendorName() != null ? l.getVendorName() : ""); // ✅ uses license vendor
                 row.createCell(3).setCellValue(l.getDepartmentName() != null ? l.getDepartmentName() : "");
                 row.createCell(4).setCellValue(l.getLicenseKeyOrContractId() != null ? l.getLicenseKeyOrContractId() : "");
                 row.createCell(5).setCellValue(l.getSeatsPurchased() != null ? l.getSeatsPurchased() : 0);
@@ -204,5 +210,21 @@ public class LicenseUiController {
         model.addAttribute("departments", departments);
         model.addAttribute("billingCycles", billingCycles);
         model.addAttribute("activeMenu", "licenses");
+    }
+
+    private void sanitizeLicenseRequestDto(LicenseRequestDto form) {
+        if (form.getLicenseKeyOrContractId() != null && form.getLicenseKeyOrContractId().isBlank()) {
+            form.setLicenseKeyOrContractId(null);
+        }
+        if (form.getCurrency() != null) {
+            form.setCurrency(form.getCurrency().trim());
+        }
+        // ✅ NEW: trim vendor name
+        if (form.getVendorName() != null) {
+            form.setVendorName(form.getVendorName().trim());
+            if (form.getVendorName().isEmpty()) {
+                form.setVendorName(null);
+            }
+        }
     }
 }

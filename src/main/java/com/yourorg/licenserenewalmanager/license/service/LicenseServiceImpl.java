@@ -45,7 +45,8 @@ public class LicenseServiceImpl implements LicenseService {
         }
 
         License license = LicenseMapper.toEntity(request, product, department);
-        license.setTenure(request.getTenure()); // in case mapper doesn't map it yet
+        license.setTenure(request.getTenure());
+        license.setVendorName(request.getVendorName()); // ✅ NEW
         License saved = licenseRepository.save(license);
         return LicenseMapper.toDto(saved);
     }
@@ -92,6 +93,7 @@ public class LicenseServiceImpl implements LicenseService {
         existing.setCostPerCycle(request.getCostPerCycle());
         existing.setCurrency(request.getCurrency());
         existing.setTenure(request.getTenure());
+        existing.setVendorName(request.getVendorName()); // ✅ NEW
 
         return LicenseMapper.toDto(existing);
     }

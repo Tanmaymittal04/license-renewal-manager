@@ -24,18 +24,27 @@ public class LicenseMapper {
         license.setAutoRenew(dto.getAutoRenew());
         license.setCostPerCycle(dto.getCostPerCycle());
         license.setCurrency(dto.getCurrency());
-        license.setTenure(dto.getTenure());          // ✅ added
+        license.setTenure(dto.getTenure());
+        license.setVendorName(dto.getVendorName());   // ✅ NEW
         license.setStatus(LicenseStatus.ACTIVE);
         return license;
     }
 
     public static LicenseResponseDto toDto(License license) {
+        // ✅ NEW: prefer license-level vendor, fallback to product vendor
+        String vendorName = null;
+        if (license.getVendorName() != null && !license.getVendorName().isBlank()) {
+            vendorName = license.getVendorName();
+        } else if (license.getProduct() != null) {
+            vendorName = license.getProduct().getVendorName();
+        }
+
         return new LicenseResponseDto(
                 license.getId(),
                 license.getProduct() != null ? license.getProduct().getId() : null,
                 license.getDepartment() != null ? license.getDepartment().getId() : null,
                 license.getProduct() != null ? license.getProduct().getName() : null,
-                license.getProduct() != null ? license.getProduct().getVendorName() : null,
+                vendorName,                                    // ✅ uses license vendor first
                 license.getDepartment() != null ? license.getDepartment().getName() : null,
                 license.getLicenseKeyOrContractId(),
                 license.getSeatsPurchased(),
@@ -47,7 +56,7 @@ public class LicenseMapper {
                 license.getStatus(),
                 license.getCostPerCycle(),
                 license.getCurrency(),
-                license.getTenure()                      // ✅ added
+                license.getTenure()
         );
     }
 }

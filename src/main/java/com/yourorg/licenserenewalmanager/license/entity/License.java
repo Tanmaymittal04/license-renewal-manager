@@ -29,7 +29,7 @@ public class License {
     @JoinColumn(name = "department_id")
     private Department department;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = true)
     private String licenseKeyOrContractId;
 
     private Integer seatsPurchased;
@@ -51,4 +51,7 @@ public class License {
     private String currency;
 
     private Integer tenure; // in months, nullable
+
+    @Column(name = "vendor_name", length = 100)
+    private String vendorName;
 }

@@ -55,7 +55,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/ui/login")  // POST — Spring Security processes credentials
                         .usernameParameter("email")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/ui/dashboard", true)
+                        .defaultSuccessUrl("/ui/licenses", true)
                         .failureUrl("/ui/login?error=true")
                         .permitAll()
                 )
