@@ -1,4 +1,7 @@
-/* Login page – LicenseOps */
+/* ============================================
+   LicenseOps Enterprise Login
+   Light/Dark Contrast Theme
+   ============================================ */
 
 *,
 *::before,
@@ -8,129 +11,314 @@
     padding: 0;
 }
 
-/* Background canvas */
+/* Three.js canvas background */
 #bgCanvas {
     position: fixed;
     inset: 0;
     width: 100%;
     height: 100%;
     z-index: 0;
-    pointer-events: none;
+    display: block;
 }
 
-/* Full-screen centering */
+/* Body: deep slate background for particle visibility */
 .lm-login-body {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: #f4f5fb;
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0b1120;
+    overflow-x: hidden;
+    padding: 1rem;
 }
 
-/* Login card */
+/* Subtle vignette overlay for depth */
+.lm-login-body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.06) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* Wrapper */
 .lm-login-wrapper {
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 440px;
-    padding: 1rem;
+    max-width: 420px;
+    animation: lmCardEnter 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    opacity: 0;
+    transform: translateY(24px);
 }
 
+@keyframes lmCardEnter {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* White card — light theme, clean, crisp */
 .lm-login-card {
-    background: #ffffff;
+    background: #e0e7e7c7;
+    border: 1px solid #e2e8f0;
     border-radius: 1.25rem;
-    padding: 2.5rem 2rem;
+    padding: 2.75rem 2.25rem;
     box-shadow:
-        0 2px 4px rgba(15, 23, 42, 0.06),
-        0 12px 40px rgba(15, 23, 42, 0.10);
+        0 1px 2px rgba(0, 0, 0, 0.04),
+        0 12px 32px rgba(0, 0, 0, 0.10),
+        0 32px 64px rgba(0, 0, 0, 0.16);
 }
 
-/* Brand / logo area */
+/* Brand */
+.lm-login-brand {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
 .lm-login-logo {
-    width: 56px;
-    height: 56px;
-    border-radius: 1rem;
-    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    width: 64px;
+    height: 64px;
+    border-radius: 1.25rem;
+    background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.30);
+}
+
+.lm-login-brand-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.lm-login-brand-sub {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-top: 0.25rem;
+    font-weight: 500;
+}
+
+/* Divider */
+.lm-login-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+    margin: 1.25rem 0 1.5rem;
+}
+
+/* Headings */
+.lm-login-heading {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    text-align: center;
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.01em;
+}
+
+.lm-login-subhead {
+    font-size: 0.875rem;
+    color: #64748b;
+    text-align: center;
+    margin-bottom: 1.75rem;
+}
+
+/* Alerts */
+.lm-alert {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 1.25rem;
+    animation: lmAlertEnter 0.35s ease forwards;
+}
+
+@keyframes lmAlertEnter {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.lm-alert-error {
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
+
+.lm-alert-success {
+    background: #f0fdf4;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+
+.lm-alert i {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+/* Form groups */
+.lm-form-group {
+    margin-bottom: 1.25rem;
+}
+
+.lm-form-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.01em;
+}
+
+/* Input wrapper */
+.lm-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.lm-input-icon {
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 1rem;
+    pointer-events: none;
+    z-index: 2;
+    transition: color 0.2s ease;
+}
+
+.lm-form-control {
+    width: 100%;
+    height: 2.75rem;
+    padding: 0 2.75rem 0 2.6rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #0f172a;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.65rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.lm-form-control::placeholder {
+    color: #94a3b8;
+    font-weight: 400;
+}
+
+.lm-form-control:hover {
+    border-color: #cbd5e1;
+    background: #ffffff;
+}
+
+.lm-form-control:focus {
+    border-color: #6366f1;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+}
+
+.lm-input-wrap:focus-within .lm-input-icon {
+    color: #6366f1;
+}
+
+/* Password toggle */
+.lm-input-toggle {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.25rem;
+    height: 2.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto;
-    font-size: 1.6rem;
-    color: #ffffff;
-}
-
-/* Form labels */
-.form-label {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 0.35rem;
-}
-
-/* Input group */
-.input-group-text {
-    background: #f8fafc;
-    border-color: #e2e8f0;
+    background: transparent;
+    border: none;
+    border-radius: 0.4rem;
     color: #94a3b8;
-}
-
-.form-control {
-    border-color: #e2e8f0;
-    font-size: 0.9rem;
-    padding: 0.55rem 0.75rem;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.form-control:focus {
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
-}
-
-/* Password toggle button */
-.lm-pw-toggle {
     cursor: pointer;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-left: 0;
-    color: #94a3b8;
-    transition: color 0.15s ease;
+    font-size: 1rem;
+    transition: color 0.15s ease, background 0.15s ease;
 }
 
-.lm-pw-toggle:hover {
+.lm-input-toggle:hover {
     color: #6366f1;
+    background: rgba(99, 102, 241, 0.06);
 }
 
 /* Sign in button */
 .lm-login-btn {
-    padding: 0.65rem;
+    width: 100%;
+    height: 2.75rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 0.95rem;
     font-weight: 600;
-    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    color: #ffffff;
+    background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
     border: none;
-    border-radius: 0.6rem;
-    transition: opacity 0.15s ease, transform 0.1s ease;
+    border-radius: 0.65rem;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.30);
+    transition: all 0.2s ease;
+    letter-spacing: 0.01em;
 }
 
-.lm-login-btn:hover {
-    opacity: 0.92;
+.lm-login-btn:hover:not(:disabled) {
+    opacity: 0.95;
     transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(59, 130, 246, 0.40);
 }
 
-.lm-login-btn:active {
+.lm-login-btn:active:not(:disabled) {
     transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
 }
 
-/* Alert tweaks */
-.alert {
-    border-radius: 0.6rem;
-    font-size: 0.875rem;
+.lm-login-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Footer */
+.lm-login-footer {
+    text-align: center;
+    margin-top: 1.75rem;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-weight: 500;
 }
 
 /* Responsive */
 @media (max-width: 480px) {
     .lm-login-card {
-        padding: 2rem 1.25rem;
-        border-radius: 1rem;
+        padding: 2rem 1.5rem;
+        border-radius: 1.25rem;
+    }
+
+    .lm-login-logo {
+        width: 56px;
+        height: 56px;
+        font-size: 1.5rem;
+    }
+
+    .lm-login-brand-title {
+        font-size: 1.2rem;
     }
 }
